@@ -4,7 +4,7 @@ import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import BlogPage from './pages/BlogPage'
 import NotFound from './pages/NotFound'
-
+import '../src/assets/css/style.css'
 
 function App() {
 
