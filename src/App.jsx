@@ -3,16 +3,21 @@ import {useRef} from "react"
 const App = () => {
   const myHeading = useRef();
   const myHeading2 = useRef();
+  const myImg = useRef();
 
   const change = () => {
     myHeading.current.innerText = "Heading changed";
     myHeading2.current.innerHTML = "<ul><li>A</li><li>B</li></ul>";
+    myImg.current.src = "https://placehold.co/600x400/000000/FFFFFF/png"
+    myImg.current.setAttribute('height','200px');
+    myImg.current.setAttribute('width','200px');
   }
 
   return (
     <div>
       <h1 ref={myHeading}>Heading one</h1>
       <h1 ref={myHeading2}>Heading one</h1>
+      <img src="https://placehold.co/600x400" ref={myImg} alt="" />
       <button onClick={change}>Submit</button>
     </div>
   );
@@ -80,4 +85,38 @@ function MyComponent() {
 - Approach 2 works, but it's not recommended in React.
 - useRef is preferred because it stays consistent across renders.
 
+*/
+
+/*
+✅ useRef: Working with image attributes directly
+
+import { useRef } from 'react';
+
+function MyComponent() {
+  const myImg = useRef(null);
+
+  const change = () => {
+    // Change the image source
+    myImg.current.src = "https://placehold.co/600x400/000000/FFFFFF/png";
+
+    // Set height and width via attributes
+    myImg.current.setAttribute('height', '200px');
+    myImg.current.setAttribute('width', '200px');
+
+    // Alternatively (preferred): use style
+    // myImg.current.style.height = '200px';
+    // myImg.current.style.width = '200px';
+  };
+
+  return (
+    <>
+      <img
+        src="https://placehold.co/600x400"
+        ref={myImg}
+        alt="Placeholder"
+      />
+      <button onClick={change}>Submit</button>
+    </>
+  );
+}
 */
