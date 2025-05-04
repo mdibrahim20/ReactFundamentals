@@ -1,24 +1,19 @@
 import React from "react";
-import {useRef} from "react"
+import { useRef } from "react";
 const App = () => {
-  const myHeading = useRef();
-  const myHeading2 = useRef();
-  const myImg = useRef();
-
-  const change = () => {
-    myHeading.current.innerText = "Heading changed";
-    myHeading2.current.innerHTML = "<ul><li>A</li><li>B</li></ul>";
-    myImg.current.src = "https://placehold.co/600x400/000000/FFFFFF/png"
-    myImg.current.setAttribute('height','200px');
-    myImg.current.setAttribute('width','200px');
+  let firstname,lastname = useRef();
+  const submit = () => {
+    let fname = firstname.value;
+    let lname = lastname.value;
+    alert(fname+ " " + lname)
   }
-
   return (
     <div>
-      <h1 ref={myHeading}>Heading one</h1>
-      <h1 ref={myHeading2}>Heading one</h1>
-      <img src="https://placehold.co/600x400" ref={myImg} alt="" />
-      <button onClick={change}>Submit</button>
+      
+        <input type="text" placeholder="firstname" name="" ref={(a)=>firstname=a} id="" /><br/><br/>
+        <input type="text" placeholder="lastname" ref={(a)=>lastname=a} name="" id="" />
+        <button onClick={submit}>submit</button>
+      
     </div>
   );
 };
@@ -88,6 +83,7 @@ function MyComponent() {
 */
 
 /*
+
 ✅ useRef: Working with image attributes directly
 
 import { useRef } from 'react';
@@ -119,4 +115,25 @@ function MyComponent() {
     </>
   );
 }
+*/
+
+/*
+useRef working with Input Elements
+
+const App = () => {
+  let firstname,lastname = useRef();
+  const submit = () => {
+    let fname = firstname.value;
+    let lname = lastname.value;
+    alert(fname+ " " + lname)
+  }
+  return (
+    <div>
+      
+        <input type="text" placeholder="firstname" name="" ref={(a)=>firstname=a} id="" /><br/><br/>
+        <input type="text" placeholder="lastname" ref={(a)=>lastname=a} name="" id="" />
+        <button onClick={submit}>submit</button>
+      
+    </div>
+  );
 */
