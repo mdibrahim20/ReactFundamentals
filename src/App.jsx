@@ -1,19 +1,22 @@
 import React from "react";
 import { useRef } from "react";
 const App = () => {
-  let firstname,lastname = useRef();
-  const submit = () => {
-    let fname = firstname.value;
-    let lname = lastname.value;
-    alert(fname+ " " + lname)
-  }
+  let myHeading = useRef();
+
+  const change = () => {
+    myHeading.current.classList.remove("text-white");
+    myHeading.current.classList.remove("bg-primary");
+    myHeading.current.classList.add("bg-danger");
+    myHeading.current.classList.add("text-success");
+  };
   return (
     <div>
-      
-        <input type="text" placeholder="firstname" name="" ref={(a)=>firstname=a} id="" /><br/><br/>
-        <input type="text" placeholder="lastname" ref={(a)=>lastname=a} name="" id="" />
-        <button onClick={submit}>submit</button>
-      
+      <h1 ref={myHeading} className="text-white bg-primary">
+        Heading 1
+      </h1>
+      <button onClick={change} className="btn btn-primary">
+        Change
+      </button>
     </div>
   );
 };
@@ -134,6 +137,28 @@ const App = () => {
         <input type="text" placeholder="lastname" ref={(a)=>lastname=a} name="" id="" />
         <button onClick={submit}>submit</button>
       
+    </div>
+  );
+*/
+
+/*
+useRef: works with css class.
+  let myHeading = useRef();
+
+  const change = () => {
+    myHeading.current.classList.remove("text-white");
+    myHeading.current.classList.remove("bg-primary");
+    myHeading.current.classList.add("bg-danger");
+    myHeading.current.classList.add("text-success");
+  };
+  return (
+    <div>
+      <h1 ref={myHeading} className="text-white bg-primary">
+        Heading 1
+      </h1>
+      <button onClick={change} className="btn btn-primary">
+        Change
+      </button>
     </div>
   );
 */
