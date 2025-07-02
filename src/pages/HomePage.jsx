@@ -1,127 +1,99 @@
 import React from "react";
 import Menu from "../components/Menu";
-import CacheAPI from "../components/CacheExpensiveComputation";
-import { useRef } from "react";
+import { useState } from "react";
 
 const HomePage = () => {
-  const statusRef = useRef();
-  const imgAtt = useRef();
-  const fname = useRef();
-  const lname = useRef();
-  const showName = useRef();
-  const myHeadLine = useRef();
-  const toggleStatus = () => {
-    const currentText = statusRef.current.innerText;
-    statusRef.current.innerText =
-      currentText === "✅ Task Completed"
-        ? "⏳ Task In Progress"
-        : "✅ Task Completed";
-  };
-  const toggleImage = () => {
-    const original = {
-      src: "https://placehold.co/600x400/png",
-      width: 600,
-      height: 400,
-    };
-    const alternate = {
-      src: "https://placehold.co/600x400/000000/FFF",
-      width: 700,
-      height: 700,
-    };
+  const [number, setNumber] = useState(0);
+  const [user, setUser] = useState({
+    name: "Alice",
+    email: "alice@example.com",
+    address: {
+      city: "Wonderland",
+      zip: "0001",
+    },
+  });
 
-    const currentSrc = imgAtt.current.getAttribute("src");
-    const isOriginal = currentSrc === original.src;
-
-    const newImage = isOriginal ? alternate : original;
-
-    imgAtt.current.setAttribute("src", newImage.src);
-    imgAtt.current.setAttribute("width", newImage.width);
-    imgAtt.current.setAttribute("height", newImage.height);
+  const updateCity = () => {
+    setUser({
+      ...user, // spread the outer object
+      address: {
+        ...user.address, // spread the nested object
+        city: "New York", // update just the city
+      },
+    });
   };
-  const showNames = () => {
-    showName.current.innerText =
-      fname.current.value + " " + lname.current.value;
-    alert(fname.current.value + " " + lname.current.value);
+
+const [todos, setTodos] = useState([
+    { id: 1, task: "Learn useState" },
+    { id: 2, task: "Master immutability" },
+  ]);
+
+  const addTodo = () => {
+    const newTodo = { id: Date.now(), task: "New Task" };
+    setTodos([...todos, newTodo]); // ⬅️ Immutable add
   };
-  const headingCSS = () => {
-    // Example: remove text-danger and add a new style
-    myHeadLine.current.classList.remove("text-danger");
-    myHeadLine.current.classList.add("text-success", "fw-bold");
+
+  const removeTodo = (id) => {
+    const updated = todos.filter((todo) => todo.id !== id); // ⬅️ Immutable remove
+    setTodos(updated);
   };
 
   return (
     <div>
       <Menu />
       <h1>This is HomePage</h1>
+      <h1>Number:{number}</h1>
+      <button onClick={() => setNumber(number + 1)}>Count</button>
+        <div className="container my-5">
+      <div className="card shadow-sm">
+        <div className="card-body">
+          <h3 className="text-center text-primary mb-4">📦 Immutable Object State</h3>
 
-      <div
-        style={{
-          background: "navy",
-          padding: 20,
-          color: "white",
-          borderRadius: 10,
-          marginBottom: 20,
-        }}
-      >
-        <h2>useRef with innerText and innerHTML</h2>
-        <p ref={statusRef}>⏳ Task In Progress</p>
-        <button onClick={toggleStatus}>Toggle Status</button>
-      </div>
-      <div
-        style={{
-          background: "navy",
-          padding: 20,
-          color: "white",
-          borderRadius: 10,
-          marginBottom: 20,
-        }}
-      >
-        <h2>useRef with Attributes</h2>
-        <img
-          ref={imgAtt}
-          src="https://placehold.co/600x400/png"
-          alt="placeholder"
-          width={600}
-          height={400}
-        />
-        <br />
-        <button onClick={toggleImage}>Toggle Image & Size</button>
-      </div>
-      <div
-        style={{
-          background: "navy",
-          padding: 20,
-          color: "white",
-          borderRadius: 10,
-          marginBottom: 20,
-        }}
-      >
-        <h2>useRef with Input Elements</h2>
-        <label htmlFor="fname">First Name</label>
-        <input ref={fname} type="text" name="" id="fname" />
-        <br />
-        <br />
-        <label htmlFor="lname">Last Name</label>
-        <input ref={lname} type="text" name="" id="lname" />
-        <br />
-        <br />
-        <button onClick={showNames}>Submit</button>
-        <br />
-        <br />
-        <h3 ref={showName}></h3>
-      </div>
-      <div className="container my-4">
-        <div className="card bg-dark text-white p-4 shadow">
-          <h1 className="card-title mb-3">useRef with CSS Class</h1>
-          <h2 className="text-danger fs-1" ref={myHeadLine}>
-            Heading
-          </h2>
-          <button className="btn btn-outline-light mt-3" onClick={headingCSS}>
-            Change Heading Style
-          </button>
+          <ul className="list-group mb-4">
+            <li className="list-group-item">Name: {user.name}</li>
+            <li className="list-group-item">Email: {user.email}</li>
+            <li className="list-group-item">City: {user.address.city}</li>
+            <li className="list-group-item">ZIP: {user.address.zip}</li>
+          </ul>
+
+          <div className="text-center">
+            <button className="btn btn-warning" onClick={updateCity}>
+              🌆 Change City to New York
+            </button>
+          </div>
         </div>
       </div>
-      <CacheAPI/>
+      <div className="container my-5">
+      <div className="card shadow-sm">
+        <div className="card-body">
+          <h3 className="text-center text-success mb-4">📝 Immutable Todo List</h3>
+
+          <ul className="list-group mb-3">
+            {todos.map((todo) => (
+              <li
+                key={todo.id}
+                className="list-group-item d-flex justify-content-between align-items-center"
+              >
+                {todo.task}
+                <button
+                  className="btn btn-sm btn-danger"
+                  onClick={() => removeTodo(todo.id)}
+                >
+                  ❌
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          <div className="text-center">
+            <button className="btn btn-primary" onClick={addTodo}>
+              ➕ Add Todo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
     </div>
   );
 };
