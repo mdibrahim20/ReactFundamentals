@@ -3,99 +3,109 @@ import Menu from "../components/Menu";
 import { useState } from "react";
 
 const HomePage = () => {
-  const [number, setNumber] = useState(0);
-  const [user, setUser] = useState({
-    name: "Alice",
-    email: "alice@example.com",
-    address: {
-      city: "Wonderland",
-      zip: "0001",
-    },
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    role: "",
+    gender: "",
   });
 
-  const updateCity = () => {
-    setUser({
-      ...user, // spread the outer object
-      address: {
-        ...user.address, // spread the nested object
-        city: "New York", // update just the city
-      },
-    });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-const [todos, setTodos] = useState([
-    { id: 1, task: "Learn useState" },
-    { id: 2, task: "Master immutability" },
-  ]);
-
-  const addTodo = () => {
-    const newTodo = { id: Date.now(), task: "New Task" };
-    setTodos([...todos, newTodo]); // ⬅️ Immutable add
+  const FormSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form submitted with data:", formData);
   };
-
-  const removeTodo = (id) => {
-    const updated = todos.filter((todo) => todo.id !== id); // ⬅️ Immutable remove
-    setTodos(updated);
-  };
-
   return (
     <div>
       <Menu />
       <h1>This is HomePage</h1>
-      <h1>Number:{number}</h1>
-      <button onClick={() => setNumber(number + 1)}>Count</button>
-        <div className="container my-5">
-      <div className="card shadow-sm">
-        <div className="card-body">
-          <h3 className="text-center text-primary mb-4">📦 Immutable Object State</h3>
+      <form
+        onSubmit={FormSubmit}
+        className="p-4 border rounded shadow-sm bg-light"
+      >
+        <div className="mb-3">
+          <label htmlFor="name" className="form-label">
+            Name:
+          </label>
+          <input
+            value={formData.name}
+            type="text"
+            id="name"
+            name="name"
+            className="form-control"
+            onChange={handleChange}
+          />
+        </div>
 
-          <ul className="list-group mb-4">
-            <li className="list-group-item">Name: {user.name}</li>
-            <li className="list-group-item">Email: {user.email}</li>
-            <li className="list-group-item">City: {user.address.city}</li>
-            <li className="list-group-item">ZIP: {user.address.zip}</li>
-          </ul>
+        <div className="mb-3">
+          <label htmlFor="email" className="form-label">
+            Email:
+          </label>
+          <input
+            type="email"
+            value={formData.email}
+            id="email"
+            name="email"
+            className="form-control"
+            onChange={handleChange}
+          />
+        </div>
 
-          <div className="text-center">
-            <button className="btn btn-warning" onClick={updateCity}>
-              🌆 Change City to New York
-            </button>
+        <div className="mb-3">
+          <label htmlFor="role" className="form-label">
+            Select Role:
+          </label>
+          <select id="role" name="role" className="form-select" onChange={handleChange}>
+            <option value={formData.role === "user"}>User</option>
+            <option value={formData.role === "admin"}>Admin</option>
+            <option value={formData.role === "moderator"}>Moderator</option>
+          </select>
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label d-block">Gender:</label>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="gender"
+              id="male"
+              value="male"
+              checked={formData.gender === "male"}
+              onChange={handleChange}
+            />
+            <label className="form-check-label" htmlFor="male">
+              Male
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="gender"
+              id="female"
+              value="female"
+              checked={formData.gender === "female"}
+              onChange={handleChange}
+            />
+            <label className="form-check-label" htmlFor="female">
+              Female
+            </label>
           </div>
         </div>
-      </div>
-      <div className="container my-5">
-      <div className="card shadow-sm">
-        <div className="card-body">
-          <h3 className="text-center text-success mb-4">📝 Immutable Todo List</h3>
 
-          <ul className="list-group mb-3">
-            {todos.map((todo) => (
-              <li
-                key={todo.id}
-                className="list-group-item d-flex justify-content-between align-items-center"
-              >
-                {todo.task}
-                <button
-                  className="btn btn-sm btn-danger"
-                  onClick={() => removeTodo(todo.id)}
-                >
-                  ❌
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          <div className="text-center">
-            <button className="btn btn-primary" onClick={addTodo}>
-              ➕ Add Todo
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </form>
     </div>
   );
 };
-
 export default HomePage;
