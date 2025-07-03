@@ -1,17 +1,20 @@
 import React from "react";
 import Menu from "../components/Menu";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const HomePage = () => {
-const dependencies = [1, 2, 3, 4]; // Defined outside render
-useEffect(() => {
-  console.log("Hello Ibrahim");
-}, dependencies);
+  let [data, setData] = useState([]);
+  useEffect(() => {
+    fetch("https://dummyjson.com/products")
+      .then((response) => response.json())
+      .then((json) => setData(json));
+  }, []);
+
   return (
     <div>
       <Menu />
       <h1>This is HomePage</h1>
-
+      {JSON.stringify(data)}
     </div>
   );
 };
